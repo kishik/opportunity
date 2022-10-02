@@ -4,7 +4,7 @@ import checking
 import xlsxwriter
 
 
-def recieving():
+def receiving():
     # Use a breakpoint in the code line below to debug your script.
     with open("transactions.json", "r") as my_file:
         transactions_json = my_file.read()  # Press Ctrl+F8 to toggle the breakpoint.
@@ -12,7 +12,7 @@ def recieving():
 
     result = []
     for el, elv in transactions['transactions'].items():
-        obj = Operation(id=el, kwargs=elv)
+        obj = Operation(el, elv)
         result.append(obj)
 
         print(obj.id)
@@ -20,7 +20,7 @@ def recieving():
 
 
 if __name__ == '__main__':
-    operations = recieving()
+    operations = receiving()
     print(len(operations))
     patterns = {"1": [1, 2, 4], "5": [21312, 324236, 231]}
     row, col = 0, 0

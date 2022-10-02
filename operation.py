@@ -3,29 +3,29 @@ from datetime import datetime
 
 class Operation:
 
-    def __init__(self, id, **kwargs):
-        self.id = id
-        self.card = kwargs['kwargs']['card']
-        self.account = kwargs['kwargs']['account']
-        self.client = kwargs['kwargs']['client']
-        self.last_name = kwargs['kwargs']['last_name']
-        self.first_name = kwargs['kwargs']['first_name']
-        self.patronymic = kwargs['kwargs']['patronymic']
-        self.passport = kwargs['kwargs']['passport']
-        self.phone = kwargs['kwargs']['phone']
-        self.oper_type = kwargs['kwargs']['oper_type']
-        self.amount = kwargs['kwargs']['amount']
-        self.oper_result = kwargs['kwargs']['oper_result']
-        self.terminal = kwargs['kwargs']['terminal']
-        self.terminal_type = kwargs['kwargs']['terminal_type']
-        self.city = kwargs['kwargs']['city']
-        self.address = kwargs['kwargs']['address']
-        self.date = datetime.strptime(kwargs['kwargs']['date'], "%Y-%m-%dT%H:%M:%S")
+    def __init__(self, operation_id, data):
+        self.id = operation_id
+        self.card = data['card']
+        self.account = data['account']
+        self.client = data['client']
+        self.last_name = data['last_name']
+        self.first_name = data['first_name']
+        self.patronymic = data['patronymic']
+        self.passport = data['passport']
+        self.phone = data['phone']
+        self.oper_type = data['oper_type']
+        self.amount = data['amount']
+        self.oper_result = data['oper_result']
+        self.terminal = data['terminal']
+        self.terminal_type = data['terminal_type']
+        self.city = data['city']
+        self.address = data['address']
+        self.date = datetime.strptime(data['date'], "%Y-%m-%dT%H:%M:%S")
         try:
-            self.account_valid_to = datetime.strptime(kwargs['kwargs']['account_valid_to'], "%Y-%m-%dT%H:%M:%S")
-            self.date_of_birth = datetime.strptime(kwargs['kwargs']['date_of_birth'], "%Y-%m-%dT%H:%M:%S")
-            self.passport_valid_to = datetime.strptime(kwargs['kwargs']['passport_valid_to'], "%Y-%m-%dT%H:%M:%S")
+            self.account_valid_to = datetime.strptime(data['account_valid_to'], "%Y-%m-%dT%H:%M:%S")
+            self.date_of_birth = datetime.strptime(data['date_of_birth'], "%Y-%m-%dT%H:%M:%S")
+            self.passport_valid_to = datetime.strptime(data['passport_valid_to'], "%Y-%m-%dT%H:%M:%S")
         except ValueError:
-            self.account_valid_to = datetime.strptime(kwargs['kwargs']['account_valid_to'], "%Y-%m-%d")
-            self.date_of_birth = datetime.strptime(kwargs['kwargs']['date_of_birth'], "%Y-%m-%d")
-            self.passport_valid_to = datetime.strptime(kwargs['kwargs']['passport_valid_to'], "%Y-%m-%d")
+            self.account_valid_to = datetime.strptime(data['account_valid_to'], "%Y-%m-%d")
+            self.date_of_birth = datetime.strptime(data['date_of_birth'], "%Y-%m-%d")
+            self.passport_valid_to = datetime.strptime(data['passport_valid_to'], "%Y-%m-%d")
