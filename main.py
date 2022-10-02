@@ -1,10 +1,11 @@
 import json
 from operation import Operation
-import checking
+from checking import *
 import xlsxwriter
+import copy
 
 
-def receiving():
+def receiving() -> list[Operation]:
     # Use a breakpoint in the code line below to debug your script.
     with open("transactions.json", "r") as my_file:
         transactions_json = my_file.read()  # Press Ctrl+F8 to toggle the breakpoint.
@@ -22,6 +23,10 @@ def receiving():
 if __name__ == '__main__':
     operations = receiving()
     print(len(operations))
+
+    for operation in day_time(operations):
+        print(operation.id)
+
     patterns = {"1": [1, 2, 4], "5": [21312, 324236, 231]}
     row, col = 0, 0
     workbook = xlsxwriter.Workbook('Result.xlsx')
