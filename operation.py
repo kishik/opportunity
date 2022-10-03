@@ -1,3 +1,6 @@
+'''
+Тут хранится класс описыващий операцию
+'''
 from datetime import datetime
 
 
