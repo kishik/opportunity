@@ -1,6 +1,7 @@
 """
 Тут хранится класс для проверки операций
 """
+import operator
 from operation import Operation
 from datetime import datetime, timedelta
 
@@ -9,19 +10,27 @@ class Fraud:
     def __init__(self, operations: list[Operation]) -> None:
         self.operations = operations
 
-    # получение операций от конкретного клиента
+    #  получение операций от конкретного клиента
     def operations_by_client(self, client: str) -> list[Operation]:
         result = []
-        for i in range(len(self.operations)):
-            if self.operations[i].client == client:
-                result.append(self.operations[i])
+        for operation in self.operations:
+            if operation.client == client:
+                result.append(operation)
         return result
 
-    # проверка на множество кликов с одного ID
+    #  получение операции с конкретного устройства (terminal)
+    def operations_by_terminal(self, terminal: str):
+        result = []
+        for operation in self.operations:
+            if operation.terminal == terminal:
+                result.append(operation)
+        return result
+
+    #  проверка на множество кликов с одного ID
     def many_clicks(self) -> list[Operation]:
         pass
 
-    # проверка на одинаковые временные промежутки между операциями
+    #  проверка на одинаковые временные промежутки между операциями
     def equal_delay(self) -> list[Operation]:
         acceracy = timedelta(seconds=1)  #  погрешность в 1 секунду
         checked_clients = {}
@@ -41,6 +50,6 @@ class Fraud:
                 checked_clients[self.operations[i].client] = 1
         return fraud_operations
 
-    # проверка на подозрительную активность в ночное время
+    #  проверка на подозрительную активность в ночное время
     def day_time(self) -> list[Operation]:
         return list(filter(lambda x: 6 < x.date.hour < 22, self.operations))
