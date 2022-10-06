@@ -28,7 +28,7 @@ class Fraud:
 
     #  проверка на множество кликов с одного ID
     def many_clicks(self) -> list[Operation]:
-        acceracy = timedelta(minutes=5)  #  промежуток времени в 5 минут 
+        acceracy = timedelta(minutes=5)  # промежуток времени в 5 минут
         checked_terminals = {}
         fraud_operations = []
         for i in range(len(self.operations)):
@@ -40,10 +40,9 @@ class Fraud:
                 checked_terminals[self.operations[i].terminal] = 1
         return fraud_operations
 
-
     #  проверка на одинаковые временные промежутки между операциями
     def equal_delay(self) -> list[Operation]:
-        acceracy = timedelta(seconds=1)  #  погрешность в 1 секунду
+        acceracy = timedelta(seconds=1)  # погрешность в 1 секунду
         checked_clients = {}
         temp = None
         fraud_operations = []
@@ -52,9 +51,9 @@ class Fraud:
                 client_operation = self.operations_by_client(self.operations[i].client)
                 for j in range(1, len(client_operation)):
                     if not temp:
-                        temp = client_operation[j].date - client_operation[j-1].date
+                        temp = client_operation[j].date - client_operation[j - 1].date
                     else:
-                        div = client_operation[j].date - client_operation[j-1].date
+                        div = client_operation[j].date - client_operation[j - 1].date
                         if div == temp or div == temp + acceracy or div == temp - acceracy:
                             fraud_operations.append(client_operation[j])
                         temp = div

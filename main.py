@@ -51,15 +51,14 @@ def main():
     checker = Fraud(get_operations())
     night_ids = [x.id for x in checker.day_time()]
     operations = get_operations()
-    print(night_ids)
+    # print(night_ids)
     types = set()
     t = set()
     for el in operations:
         types.add(el.oper_result)
         t.add(el.oper_type)
-    print(t)
-    print(types)
-    write_to_csv()
+
+    # write_to_csv()
 
     # проверка на одинаковые временные промежутки
     op_with_delay_equal = checker.equal_delay()
@@ -67,14 +66,17 @@ def main():
         for operation in op_with_delay_equal:
             append_xlsx(str(PATTERNS['EQUAL_DELAY']), operation.id)
 
-    patterns = {"3": list(night_ids)}
+    patterns = {"3": checker.day_time(), "2": checker.equal_delay(), "1": checker.many_clicks()}
+    # print(list([int(operation in night_ids) for operation in operations]))
     row, col = 0, 0
     workbook = xlsxwriter.Workbook('Result.xlsx')
     worksheet = workbook.add_worksheet()
 
-    for key, value in patterns.items():
-        worksheet.write(row, col, key)
-        worksheet.write(row, col + 1, ', '.join(str(x) for x in sorted(value)))
+    print(patterns)
+    for i in range(len(patterns.keys())):
+        # print(value)
+        worksheet.write(row, col, i + 1)
+        worksheet.write(row, col + 1, ', '.join(sorted(x.id for x in patterns[str(i+1)])))
         row += 1
     workbook.close()
 
