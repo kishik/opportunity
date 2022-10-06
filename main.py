@@ -2,10 +2,11 @@ import csv
 import datetime
 import json
 import time
-
+import numpy as np
 from operation import Operation
 from checking import Fraud
 import xlsxwriter
+import pandas as pd
 
 PATTERNS = {
     "MANY_CLICKS": 1,  # проверка на множество кликов с одного ID
@@ -19,9 +20,7 @@ FILENAME = "data.csv"
 def write_to_csv():
     with open(FILENAME, "w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(('date', 'card', 'account', 'client',
-                         'age', 'result',
-                         'terminal_type', 'city', 'phone', 'amount'))
+        writer.writerow(('p1', 'p2', 'p3', 'result'))
         for operation in get_operations():
             writer.writerow((operation.date, operation.card, operation.account, operation.client,
                              float(datetime.datetime.now().year - operation.date_of_birth.year),
@@ -72,13 +71,27 @@ def main():
     workbook = xlsxwriter.Workbook('Result.xlsx')
     worksheet = workbook.add_worksheet()
 
-    print(patterns)
+    # print(patterns)
     for i in range(len(patterns.keys())):
         # print(value)
         worksheet.write(row, col, i + 1)
         worksheet.write(row, col + 1, '[' + ', '.join(sorted(x.id for x in patterns[str(i+1)])) + ']')
         row += 1
     workbook.close()
+    data = []
+    night_ids = [x.id for x in checker.many_clicks()]
+    data.append(list([int(operation.id in night_ids) for operation in operations]))
+    night_ids = [x.id for x in checker.equal_delay()]
+    data.append(list([int(operation.id in night_ids) for operation in operations]))
+    night_ids = [x.id for x in checker.day_time()]
+    data.append(list([int(operation.id in night_ids) for operation in operations]))
+    data.append(list([operation.oper_result for operation in operations]))
+
+    n_array = np.array(data)
+    arr_t = n_array.transpose()
+    arr_t = arr_t.astype(int)
+    df = pd.DataFrame(arr_t, columns=['p1', 'p2', 'p3', 'result'])
+    df.to_csv('foo.csv', index=False)
 
 
 if __name__ == '__main__':
