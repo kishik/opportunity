@@ -52,4 +52,4 @@ class Fraud:
 
     #  проверка на подозрительную активность в ночное время
     def day_time(self) -> list[Operation]:
-        return list(filter(lambda x: 6 < x.date.hour < 22, self.operations))
+        return list(filter(lambda x: x.date.hour < 6 or x.date.hour > 22, self.operations))

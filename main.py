@@ -1,4 +1,8 @@
+import csv
+import datetime
 import json
+import time
+
 from operation import Operation
 from checking import Fraud
 import xlsxwriter
@@ -9,6 +13,20 @@ PATTERNS = {
     "NIGHT_TIME": 3  # поверка на подозрительную активность в ночное время
 }
 JSON_FILENAME = "transactions.json"
+FILENAME = "data.csv"
+
+
+def write_to_csv():
+    with open(FILENAME, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(('date', 'card', 'account', 'client',
+                         'age', 'result',
+                         'terminal_type', 'city', 'phone', 'amount'))
+        for operation in get_operations():
+            writer.writerow((operation.date, operation.card, operation.account, operation.client,
+                             float(datetime.datetime.now().year - operation.date_of_birth.year),
+                             operation.oper_result, operation.terminal_type, operation.city,
+                             operation.phone, operation.amount))
 
 
 # считывание операций из исходного файла
@@ -31,6 +49,17 @@ def append_xlsx(pattern_num: str, operation: str) -> None:
 
 def main():
     checker = Fraud(get_operations())
+    night_ids = [x.id for x in checker.day_time()]
+    operations = get_operations()
+    print(night_ids)
+    types = set()
+    t = set()
+    for el in operations:
+        types.add(el.oper_result)
+        t.add(el.oper_type)
+    print(t)
+    print(types)
+    write_to_csv()
 
     # проверка на одинаковые временные промежутки
     op_with_delay_equal = checker.equal_delay()
@@ -38,7 +67,7 @@ def main():
         for operation in op_with_delay_equal:
             append_xlsx(str(PATTERNS['EQUAL_DELAY']), operation.id)
 
-    patterns = {"1": [1, 2, 4], "5": [21312, 324236, 231]}
+    patterns = {"3": list(night_ids)}
     row, col = 0, 0
     workbook = xlsxwriter.Workbook('Result.xlsx')
     worksheet = workbook.add_worksheet()

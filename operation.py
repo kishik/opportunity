@@ -18,7 +18,10 @@ class Operation:
         self.phone = data['phone']
         self.oper_type = data['oper_type']
         self.amount = data['amount']
-        self.oper_result = data['oper_result']
+        if data['oper_result'] == "Отказ":
+            self.oper_result = 0
+        else:
+            self.oper_result = 1
         self.terminal = data['terminal']
         self.terminal_type = data['terminal_type']
         self.city = data['city']
