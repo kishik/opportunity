@@ -28,7 +28,18 @@ class Fraud:
 
     #  проверка на множество кликов с одного ID
     def many_clicks(self) -> list[Operation]:
-        pass
+        acceracy = timedelta(minutes=5)  #  промежуток времени в 5 минут 
+        checked_terminals = {}
+        fraud_operations = []
+        for i in range(len(self.operations)):
+            if not checked_terminals.get(self.operations[i].terminal):
+                terminal_operations = self.operations_by_terminal(self.operations[i].terminal)
+                for j in range(1, len(terminal_operations)):
+                    if terminal_operations[j].date - terminal_operations[j].date <= acceracy:
+                        fraud_operations.append(terminal_operations[j])
+                checked_terminals[self.operations[i].terminal] = 1
+        return fraud_operations
+
 
     #  проверка на одинаковые временные промежутки между операциями
     def equal_delay(self) -> list[Operation]:
@@ -39,13 +50,13 @@ class Fraud:
         for i in range(len(self.operations)):
             if not checked_clients.get(self.operations[i].client):
                 client_operation = self.operations_by_client(self.operations[i].client)
-                for i in range(1, len(client_operation)):
+                for j in range(1, len(client_operation)):
                     if not temp:
-                        temp = client_operation[i].date - client_operation[i-1].date
+                        temp = client_operation[j].date - client_operation[j-1].date
                     else:
-                        div = client_operation[i].date - client_operation[i-1].date
+                        div = client_operation[j].date - client_operation[j-1].date
                         if div == temp or div == temp + acceracy or div == temp - acceracy:
-                            fraud_operations.append(client_operation[i])
+                            fraud_operations.append(client_operation[j])
                         temp = div
                 checked_clients[self.operations[i].client] = 1
         return fraud_operations
