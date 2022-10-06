@@ -76,7 +76,7 @@ def main():
     for i in range(len(patterns.keys())):
         # print(value)
         worksheet.write(row, col, i + 1)
-        worksheet.write(row, col + 1, ', '.join(sorted(x.id for x in patterns[str(i+1)])))
+        worksheet.write(row, col + 1, '[' + ', '.join(sorted(x.id for x in patterns[str(i+1)])) + ']')
         row += 1
     workbook.close()
 
