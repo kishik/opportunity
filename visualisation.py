@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 
 
-@st.cache
+# @st.cache
 def load_data(file, nrows=None):
     if nrows <= 0:
         return pd.DataFrame()
@@ -29,4 +29,14 @@ def visualisation(file, nrows=10000):
 
 
 if __name__ == '__main__':
+    st.set_page_config(
+        page_title="Transactions",
+        page_icon=":shark:",
+        layout="wide",
+        initial_sidebar_state="expanded",
+
+    )
+    if 'welcomed' not in st.session_state:
+        st.balloons()
+        st.session_state['welcomed'] = 'welcomed'
     visualisation('transactions.json')
