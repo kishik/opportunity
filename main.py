@@ -83,7 +83,6 @@ def main():
         worksheet.write(row, col + 1, '[' + ', '.join(sorted(x.id for x in patterns[str(i+1)])) + ']')
         row += 1
     workbook.close()
-    '''
 
 
 if __name__ == '__main__':
