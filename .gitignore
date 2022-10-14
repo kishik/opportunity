@@ -1,2 +1,4 @@
 venv/
 Result.xlsx
+.DS_Store
+.idea/
