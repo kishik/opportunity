@@ -3,7 +3,6 @@ import streamlit as st
 import pandas as pd
 
 
-# @st.cache
 def load_data(file, nrows=None):
     if nrows <= 0:
         return pd.DataFrame()
