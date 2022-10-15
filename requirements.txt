@@ -1,6 +1,6 @@
-xlsxwriter~=3.0.3
+xlsxwriter==3.0.3
 numpy==1.23.4
-streamlit~=1.13.0
-pandas~=1.5.0
-streamlit-aggrid
-hiplot
+streamlit==1.13.0
+pandas==1.5.0
+Flask==2.2.2
+jsonschema==4.16.0
