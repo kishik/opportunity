@@ -3,7 +3,17 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import requests
-from visualisation import load_data
+from visualisation import load_data, page_config
+
+page_config()
+
+st.set_page_config(
+        page_title="Transactions",
+        page_icon=":shark:",
+        layout="wide",
+        initial_sidebar_state="expanded",
+
+    )
 
 url = 'http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=1&appid={api_key}'
 req = requests.get(url=url.format(city_name='Москва', api_key='267c99ba130b445b455b4aa7d9b5e617'))

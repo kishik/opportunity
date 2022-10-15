@@ -1,5 +1,15 @@
 import streamlit as st
+from visualisation import page_config
 
+page_config()
+
+st.set_page_config(
+        page_title="Transactions",
+        page_icon=":shark:",
+        layout="wide",
+        initial_sidebar_state="expanded",
+
+    )
 
 st.header("Лучшие клиенты")
 img_file_buffer = st.camera_input("Take a picture")
