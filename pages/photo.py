@@ -1,7 +1,4 @@
 import streamlit as st
-from visualisation import page_config
-
-page_config()
 
 st.set_page_config(
         page_title="Transactions",

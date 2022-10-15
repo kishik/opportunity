@@ -1,6 +1,7 @@
 import json
-import streamlit as st
+
 import pandas as pd
+import streamlit as st
 
 api_url = 'http://api.openweathermap.org/geo/1.0/direct'
 
@@ -42,7 +43,7 @@ def json_to_pandas(data, nrows):
 def load_data(file, nrows=100000):
     if nrows <= 0:
         return pd.DataFrame()
-    with open('transactions.json') as json_file:
+    with open(file) as json_file:
         data = json.load(json_file)
     return json_to_pandas(data, nrows)
 
