@@ -30,8 +30,15 @@ def import_transations():
     else:
         data = request.get_json()
     if v.validate_post(data):
+        h.add_transactions_to_db(data)
         return jsonify(get_fraud_transactions(data)), 200
     return jsonify(FAILED_VALIDATION), 400
+
+
+@app.route('/get_transactions', methods=['GET'])
+def get_transactions():
+    return jsonify(h.get_all_transactions()), 200
+
 
 
 if __name__ == '__main__':

@@ -35,3 +35,34 @@ class Helper:
         transactions = data['transactions']
         for transactions_id, t_data in transactions.items():
             self.sql.add_transaction(transactions_id, t_data)
+
+    def get_all_transactions(self) -> dict:
+        transactions = self.sql.get_transactions()
+        result = {
+            "transactions": []
+        }
+        for t in transactions:
+            result['transactions'].append({
+                t[0]: {
+                    "date": t[1],
+                    "card": t[2],
+                    "account": t[3],
+                    "account_valid_to": t[4],
+                    "client": t[5],
+                    "last_name": t[6],
+                    "first_name": t[7],
+                    "patronymic": t[8],
+                    "date_of_birth": t[9],
+                    "passport": t[10],
+                    "passport_valid_to": t[11],
+                    "phone": t[12],
+                    "oper_type": t[13],
+                    "amount": t[14],
+                    "oper_result": t[15],
+                    "terminal": t[16],
+                    "terminal_type": t[17],
+                    "city": t[18],
+                    "address": t[19]
+                }
+            })
+        return result
