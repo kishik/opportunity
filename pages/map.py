@@ -17,7 +17,8 @@ url = 'http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=1&appid=
 req = requests.get(url=url.format(city_name='Москва', api_key='267c99ba130b445b455b4aa7d9b5e617'))
 
 gps = pd.DataFrame(columns=['lat', 'lon'])
-df = load_data('transactions.json', 100)
+f = open("transactions.json", "r")
+df = load_data(f.read(), 100)
 cities = pd.DataFrame(df['city'])
 df2 = cities.groupby(['city']).city.transform('count')
 for i in range(len(cities)):
