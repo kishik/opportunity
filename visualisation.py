@@ -83,8 +83,13 @@ def visualisation(file, nrows=10000):
     st.dataframe(df)
 
 
+def visualisation(file, nrows=10000):
+    st.header("Транзакции")
+    df = load_data(file, nrows)
+    st.dataframe(df)
+
+
 if __name__ == '__main__':
-    page_config()
     if 'welcomed' not in st.session_state:
         st.balloons()
         st.session_state['welcomed'] = 'welcomed'
