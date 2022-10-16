@@ -1,7 +1,6 @@
 """
 Тут хранится класс для проверки операций
 """
-import operator
 from backend.transaction import Operation
 from datetime import datetime, timedelta
 
