@@ -1,3 +1,5 @@
+import json
+
 import pandas as pd
 import streamlit as st
 
@@ -48,18 +50,28 @@ def page_config():
 def load_data(file, nrows=10000):
     if nrows <= 0:
         return pd.DataFrame()
-    data = file
-    #data = data['transactions']
+    data = json.loads(file)
+    data = data['transactions']
     result = pd.DataFrame.from_dict(data).T
     result = result[:nrows]
-    print(result.index)
     result.index = result.index.astype(int)
     result['amount'] = result['amount'].astype(int)
-    result['passport'] = result['passport']
+    result['passport'] = result['passport'].astype(str)
     result['date'] = pd.to_datetime(result['date'], format='%Y-%m-%dT%H:%M:%S')
     result['account_valid_to'] = pd.to_datetime(result['account_valid_to'], format='%Y-%m-%d')
     result['date_of_birth'] = pd.to_datetime(result['date_of_birth'], format='%Y-%m-%d')
     result['passport_valid_to'] = pd.to_datetime(result['passport_valid_to'], format='%Y-%m-%d')
+    return result
+
+
+def load_patterns(x):
+    data = x['fraud_transactions']
+    print(data)
+    print(len(data))
+    print(type(data))
+    result = pd.DataFrame.from_dict(data).T
+    print(result.index)
+    result.index = result.index.astype(str)
     return result
 
 
