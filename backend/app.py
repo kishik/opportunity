@@ -19,7 +19,7 @@ h = Helper()
 
 @app.route('/import_transactions', methods=['POST'])
 def import_transations():
-    file = request.files['file']
+    file = request.files.get('file')
     if file:
         if not v.allowed_file(file.filename):
             return jsonify(FAILED_VALIDATION), 400
