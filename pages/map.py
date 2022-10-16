@@ -25,14 +25,14 @@ for i in range(len(cities)):
     req = requests.get(url=url.format(city_name=city, api_key='267c99ba130b445b455b4aa7d9b5e617'))
     data = req.json()[0]
     print(data['lat'], data['lon'])
-    new_row = {'lat': float(data['lat']), 'lon': float(data['lon'])}
+    new_row = {'lat': data['lat'], 'lon': data['lon']}
     gps = gps.append(new_row, ignore_index=True)
 
 st.pydeck_chart(pdk.Deck(
     map_style=None,
     initial_view_state=pdk.ViewState(
-        latitude=float(55.7504461),
-        longitude=float(37.6174943),
+        latitude=55.7504461,
+        longitude=37.6174943,
         zoom=11,
         pitch=50,
     ),
