@@ -14,7 +14,7 @@ class Operation:
         self.last_name = data['last_name']
         self.first_name = data['first_name']
         self.patronymic = data['patronymic']
-        self.passport = data['passport']
+        self.passport = str(data['passport'])
         self.phone = data['phone']
         self.oper_type = data['oper_type']
         self.amount = data['amount']
@@ -35,3 +35,28 @@ class Operation:
             self.account_valid_to = datetime.strptime(data['account_valid_to'], "%Y-%m-%d")
             self.date_of_birth = datetime.strptime(data['date_of_birth'], "%Y-%m-%d")
             self.passport_valid_to = datetime.strptime(data['passport_valid_to'], "%Y-%m-%d")
+
+    def to_dict(self) -> dict:
+        return {
+            self.id: {
+                "date": str(self.date),
+                "card": self.card,
+                "account": self.account,
+                "client": self.client,
+                "last_name": self.last_name,
+                "first_name": self.first_name,
+                "patronymic": self.patronymic,
+                "passport": self.passport,
+                "phone": self.phone,
+                "oper_type": self.oper_type,
+                "amount": self.amount,
+                "terminal": self.terminal,
+                "terminal_type": self.terminal_type,
+                "city": self.city,
+                "address": self.address,
+                "oper_result": "Успешно" if self.oper_result else "Отказ",
+                "account_valid_to": str(self.account_valid_to),
+                "date_of_birth": str(self.date_of_birth),
+                "passport_valid_to": str(self.passport_valid_to)
+            }
+        }
