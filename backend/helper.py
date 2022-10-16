@@ -1,8 +1,8 @@
 import requests
 
 from backend.db.sqllib import SQLlib
-from backend.transaction import Operation
 from backend.fraud import Fraud
+from backend.transaction import Operation
 
 API_KEY = ''
 
@@ -19,15 +19,15 @@ def get_fraud_transactions(data: dict) -> dict:
     result = {
         "fraud_transactions": {
             "pattern_1": {
-                "transactions": [],
+                "transactions": {},
                 "count": 0
-                },
+            },
             "pattern_2": {
-                "transactions": [],
+                "transactions": {},
                 "count": 0
             },
             "pattern_3": {
-                "transactions": [],
+                "transactions": {},
                 "count": 0
             }
         }
@@ -35,13 +35,13 @@ def get_fraud_transactions(data: dict) -> dict:
     transactions = get_transaction_from_json(data)
     f = Fraud(transactions)
     for t in f.many_clicks():
-        result['fraud_transactions']['pattern_1']['transactions'].append(t.to_dict())
+        result['fraud_transactions']['pattern_1']['transactions'][t.id] = t.to_dict()
     result['fraud_transactions']['pattern_1']['count'] = len(result['fraud_transactions']['pattern_1']['transactions'])
     for t in f.equal_delay():
-        result['fraud_transactions']['pattern_2']['transactions'].append(t.to_dict())
+        result['fraud_transactions']['pattern_2']['transactions'][t.id] = t.to_dict()
     result['fraud_transactions']['pattern_2']['count'] = len(result['fraud_transactions']['pattern_2']['transactions'])
     for t in f.day_time():
-        result['fraud_transactions']['pattern_3']['transactions'].append(t.to_dict())
+        result['fraud_transactions']['pattern_3']['transactions'][t.id] = t.to_dict()
     result['fraud_transactions']['pattern_3']['count'] = len(result['fraud_transactions']['pattern_3']['transactions'])
     return result
 

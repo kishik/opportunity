@@ -38,7 +38,6 @@ class Operation:
 
     def to_dict(self) -> dict:
         return {
-            self.id: {
                 "date": str(self.date),
                 "card": self.card,
                 "account": self.account,
@@ -59,4 +58,3 @@ class Operation:
                 "date_of_birth": str(self.date_of_birth),
                 "passport_valid_to": str(self.passport_valid_to)
             }
-        }
