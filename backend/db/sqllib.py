@@ -24,3 +24,10 @@ class SQLlib:
     def get_transactions(self) -> list:
         return self.cur.execute("SELECT * FROM transactions").fetchall()
 
+    def check_city(self, name: str) -> bool:
+        res = self.cur.execute("SELECT * FROM cities WHERE name = ?", (name,)).fetchone()
+        return True if res else False
+
+    def add_city(self, name: str, lat: str, lon: str) -> None:
+        self.cur.execute("INSERT INTO cities (name, lat, lon) VALUES (?,?,?)", (name, lat, lon))
+        self.con.commit()

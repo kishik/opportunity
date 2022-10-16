@@ -1,6 +1,10 @@
+import requests
+
 from backend.db.sqllib import SQLlib
 from backend.transaction import Operation
 from backend.fraud import Fraud
+
+API_KEY = ''
 
 
 def get_transaction_from_json(data: dict) -> list[Operation]:
@@ -13,16 +17,32 @@ def get_transaction_from_json(data: dict) -> list[Operation]:
 
 def get_fraud_transactions(data: dict) -> dict:
     result = {
-        "fraud_transactions": []
+        "fraud_transactions": {
+            "pattern_1": {
+                "transactions": [],
+                "count": 0
+                },
+            "pattern_2": {
+                "transactions": [],
+                "count": 0
+            },
+            "pattern_3": {
+                "transactions": [],
+                "count": 0
+            }
+        }
     }
     transactions = get_transaction_from_json(data)
     f = Fraud(transactions)
-    fraud_transactions = f.many_clicks()
-    fraud_transactions.extend(f.equal_delay())
-    fraud_transactions.extend(f.day_time())
-    fraud_transactions = set(fraud_transactions)
-    for transaction in fraud_transactions:
-        result['fraud_transactions'].append(transaction.to_dict())
+    for t in f.many_clicks():
+        result['fraud_transactions']['pattern_1']['transactions'].append(t.to_dict())
+    result['fraud_transactions']['pattern_1']['count'] = len(result['fraud_transactions']['pattern_1']['transactions'])
+    for t in f.equal_delay():
+        result['fraud_transactions']['pattern_2']['transactions'].append(t.to_dict())
+    result['fraud_transactions']['pattern_2']['count'] = len(result['fraud_transactions']['pattern_2']['transactions'])
+    for t in f.day_time():
+        result['fraud_transactions']['pattern_3']['transactions'].append(t.to_dict())
+    result['fraud_transactions']['pattern_3']['count'] = len(result['fraud_transactions']['pattern_3']['transactions'])
     return result
 
 
@@ -30,11 +50,19 @@ class Helper:
 
     def __init__(self) -> None:
         self.sql = SQLlib()
+        self.city_api_url = \
+            'http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=1&appid={api_key}'
+
+    def get_city_lat_lon(self, name: str) -> list[str]:
+        req = requests.get(self.city_api_url.format(name, API_KEY)).json()
+        return [req[0]['lat'], req[0]['lon']]
 
     def add_transactions_to_db(self, data: dict) -> None:
         transactions = data['transactions']
         for transactions_id, t_data in transactions.items():
             self.sql.add_transaction(transactions_id, t_data)
+            if not self.sql.check_city(t_data['city']):
+                pass
 
     def get_all_transactions(self) -> dict:
         transactions = self.sql.get_transactions()

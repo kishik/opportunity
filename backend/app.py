@@ -40,6 +40,10 @@ def get_transactions():
     return jsonify(h.get_all_transactions()), 200
 
 
+@app.route('/get_cities', methods=['GET'])
+def get_cities():
+    return '', 200
+
 
 if __name__ == '__main__':
     app.run()
