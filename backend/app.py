@@ -42,7 +42,7 @@ def get_transactions():
 
 @app.route('/get_cities', methods=['GET'])
 def get_cities():
-    return '', 200
+    return jsonify(h.get_all_cities()), 200
 
 
 if __name__ == '__main__':

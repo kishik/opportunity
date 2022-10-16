@@ -49,12 +49,13 @@ def load_data(file, nrows=10000):
     if nrows <= 0:
         return pd.DataFrame()
     data = file
-    data = data['pattern_1']
+    #data = data['transactions']
     result = pd.DataFrame.from_dict(data).T
     result = result[:nrows]
+    print(result.index)
     result.index = result.index.astype(int)
     result['amount'] = result['amount'].astype(int)
-    result['passport'] = result['passport'].astype(str)
+    result['passport'] = result['passport']
     result['date'] = pd.to_datetime(result['date'], format='%Y-%m-%dT%H:%M:%S')
     result['account_valid_to'] = pd.to_datetime(result['account_valid_to'], format='%Y-%m-%d')
     result['date_of_birth'] = pd.to_datetime(result['date_of_birth'], format='%Y-%m-%d')
