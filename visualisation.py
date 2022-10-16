@@ -51,7 +51,7 @@ def load_data(file, nrows=None):
     if nrows <= 0:
         return pd.DataFrame()
     if file:
-        data = json.load(file)
+        data = json.loads(file)
         data = data['transactions']
         result = pd.DataFrame.from_dict(data).T
         result = result[:nrows]
@@ -83,14 +83,9 @@ def visualisation(file, nrows=10000):
     st.dataframe(df)
 
 
-def visualisation(file, nrows=10000):
-    st.header("Транзакции")
-    df = load_data(file, nrows)
-    st.dataframe(df)
-
-
 if __name__ == '__main__':
     if 'welcomed' not in st.session_state:
         st.balloons()
         st.session_state['welcomed'] = 'welcomed'
-    visualisation('transactions.json')
+    f = open("transactions.json", "r")
+    visualisation(f.read())
