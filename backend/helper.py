@@ -17,7 +17,9 @@ def get_fraud_transactions(data: dict) -> dict:
     }
     transactions = get_transaction_from_json(data)
     f = Fraud(transactions)
-    fraud_transactions = f.many_clicks().extend(f.equal_delay()).extend(f.day_time())
+    fraud_transactions = f.many_clicks()
+    fraud_transactions.extend(f.equal_delay())
+    fraud_transactions.extend(f.day_time())
     fraud_transactions = set(fraud_transactions)
     for transaction in fraud_transactions:
         result['fraud_transactions'].append(transaction.to_dict())

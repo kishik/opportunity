@@ -1,7 +1,7 @@
 from backend.schemas.schemas import POST_TRANSACTION_SCHEMA
 import jsonschema
 
-ALLOWED_EXTENSIONS = set(['json'])
+ALLOWED_EXTENSIONS = ['json']
 
 
 class Validate:
