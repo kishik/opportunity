@@ -1,6 +1,8 @@
-import streamlit as st
-import requests
 import json
+
+import requests
+import streamlit as st
+
 from visualisation import visualisation
 
 st.set_page_config(
