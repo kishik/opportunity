@@ -10,7 +10,6 @@ st.set_page_config(
     page_icon=":shark:",
     layout="wide",
     initial_sidebar_state="expanded",
-
 )
 
 url = 'http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=1&appid={api_key}'
