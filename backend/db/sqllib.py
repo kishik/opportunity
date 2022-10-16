@@ -31,3 +31,6 @@ class SQLlib:
     def add_city(self, name: str, lat: str, lon: str) -> None:
         self.cur.execute("INSERT INTO cities (name, lat, lon) VALUES (?,?,?)", (name, lat, lon))
         self.con.commit()
+
+    def get_cities(self) -> list:
+        return self.cur.execute("SELECT * FROM cities").fetchall()
