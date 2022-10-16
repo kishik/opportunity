@@ -1,12 +1,12 @@
 import csv
 import datetime
 import json
-import time
 import numpy as np
-from operation import Operation
-from checking import Fraud
+from backend.transaction import Operation
+from backend.fraud import Fraud
 import xlsxwriter
 import pandas as pd
+from backend.app import app
 
 PATTERNS = {
     "MANY_CLICKS": 1,  # проверка на множество кликов с одного ID
@@ -114,4 +114,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    #main()
+    app.run()

@@ -2,7 +2,7 @@
 Тут хранится класс для проверки операций
 """
 import operator
-from operation import Operation
+from backend.transaction import Operation
 from datetime import datetime, timedelta
 
 
@@ -19,7 +19,7 @@ class Fraud:
         return result
 
     #  получение операции с конкретного устройства (terminal)
-    def operations_by_terminal(self, terminal: str):
+    def operations_by_terminal(self, terminal: str) -> list[Operation]:
         result = []
         for operation in self.operations:
             if operation.terminal == terminal:

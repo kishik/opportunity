@@ -1,4 +1,4 @@
-from operation import Operation
+from backend.transaction import Operation
 
 
 # TODO создать общего предка для классов аккаунт и клиент и унаследовать их от него
