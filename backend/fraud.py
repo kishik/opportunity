@@ -1,8 +1,14 @@
 """
 Тут хранится класс для проверки операций
 """
-from backend.transaction import Operation
 from datetime import datetime, timedelta
+
+from backend.transaction import Operation
+
+bad_time = [(0, 6), (23, 25)]
+bad_age = [(58, 63)]
+many_clicks_delay = 5
+night_hours = [(0, 6), (24, 25)]
 
 
 class Fraud:
@@ -60,5 +66,14 @@ class Fraud:
         return fraud_operations
 
     #  проверка на подозрительную активность в ночное время
-    def day_time(self) -> list[Operation]:
+    def night_time(self, from_hour=None, to_hour=None) -> list[Operation]:
         return list(filter(lambda x: x.date.hour < 6 or x.date.hour > 22, self.operations))
+
+    def outdated_account(self) -> list[Operation]:
+        return list(filter(lambda x: x.account_valid_to > datetime.now(), self.operations))
+
+    def bad_time(self, from_hour=14, to_hour=16) -> list[Operation]:
+        return list(filter(lambda x: from_hour <= x.date.hour <= to_hour, self.operations))
+
+    def bad_age(self, from_age=57, to_age=62):
+        return list(filter(lambda x: from_age <= datetime.now().year - x.date_of_birth.year <= to_age, self.operations))
