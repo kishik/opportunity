@@ -6,6 +6,12 @@ from backend.transaction import Operation
 
 API_KEY = '267c99ba130b445b455b4aa7d9b5e617'
 
+BAD_HOURS = (14, 16)
+AGE = (58, 63)
+MANY_CLICKS_DELAY = 5
+EQUAL_DELAY = 1
+NIGHT_HOURS = (0, 5)
+
 
 def get_transaction_from_json(data: dict) -> list[Operation]:
     transactions = []
@@ -57,17 +63,17 @@ def get_fraud_transactions(data: dict) -> dict:
     #     result['fraud_transactions']['pattern_3']['count'] = len(
     #         result['fraud_transactions']['pattern_3']['transactions'])
     # TODO добавление количества
-    result['fraud_transactions']['pattern_1']['transactions'] = [t.id for t in f.many_clicks(many_clicks_delay)]
+    result['fraud_transactions']['pattern_1']['transactions'] = [t.id for t in f.many_clicks(MANY_CLICKS_DELAY)]
     result['fraud_transactions']['pattern_1']['count'] = len(result['fraud_transactions']['pattern_1']['transactions'])
-    result['fraud_transactions']['pattern_2']['transactions'] = [t.id for t in f.equal_delay(equal_delay)]
+    result['fraud_transactions']['pattern_2']['transactions'] = [t.id for t in f.equal_delay(EQUAL_DELAY)]
     result['fraud_transactions']['pattern_2']['count'] = len(result['fraud_transactions']['pattern_2']['transactions'])
-    result['fraud_transactions']['pattern_3']['transactions'] = [t.id for t in f.bad_time(night_hours)]
+    result['fraud_transactions']['pattern_3']['transactions'] = [t.id for t in f.bad_time(NIGHT_HOURS)]
     result['fraud_transactions']['pattern_3']['count'] = len(result['fraud_transactions']['pattern_3']['transactions'])
     result['fraud_transactions']['pattern_4']['transactions'] = [t.id for t in f.outdated_account()]
     result['fraud_transactions']['pattern_4']['count'] = len(result['fraud_transactions']['pattern_4']['transactions'])
-    result['fraud_transactions']['pattern_5']['transactions'] = [t.id for t in f.bad_time(bad_hours)]
+    result['fraud_transactions']['pattern_5']['transactions'] = [t.id for t in f.bad_time(BAD_HOURS)]
     result['fraud_transactions']['pattern_5']['count'] = len(result['fraud_transactions']['pattern_5']['transactions'])
-    result['fraud_transactions']['pattern_6']['transactions'] = [t.id for t in f.bad_age(age)]
+    result['fraud_transactions']['pattern_6']['transactions'] = [t.id for t in f.bad_age(AGE)]
     result['fraud_transactions']['pattern_6']['count'] = len(result['fraud_transactions']['pattern_6']['transactions'])
     return result
 
@@ -84,10 +90,12 @@ class Helper:
         return [req[0]['lat'], req[0]['lon']]
 
     def get_transactions_data(self, transaction_ids: str) -> dict:
-        result = {}
+        result = {
+            "transactions": {}
+        }
         for t_id in transaction_ids.split(','):
             t = self.sql.get_transaction(t_id)
-            result[t_id] = {
+            result['transactions'][t_id] = {
                 "date": t[1],
                 "card": t[2],
                 "account": t[3],

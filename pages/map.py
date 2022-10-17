@@ -2,6 +2,7 @@ import pandas as pd
 import pydeck as pdk
 import requests
 import streamlit as st
+import json
 
 from visualisation import load_data
 
@@ -20,7 +21,7 @@ def map_draw():
 
     gps = pd.DataFrame(columns=['lat', 'lon'])
     f = open("transactions.json", "r")
-    df = load_data(f.read(), 100)
+    df = load_data(json.loads(f.read()), 10000)
     cities = pd.DataFrame(df['city'])
     df2 = cities.groupby(['city']).city.transform('count')
     for i in range(len(cities)):
