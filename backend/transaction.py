@@ -16,6 +16,8 @@ class Operation:
         self.patronymic = data['patronymic']
         self.passport = str(data['passport'])
         self.phone = data['phone']
+        if int(data['oper_type']) < 0:
+            raise ValueError
         self.oper_type = data['oper_type']
         self.amount = data['amount']
         if data['oper_result'] == "Отказ":
