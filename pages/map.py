@@ -1,8 +1,9 @@
+import json
+
 import pandas as pd
 import pydeck as pdk
 import requests
 import streamlit as st
-import json
 
 from visualisation import load_data
 
@@ -21,16 +22,22 @@ def map_draw():
 
     gps = pd.DataFrame(columns=['lat', 'lon'])
     f = open("transactions.json", "r")
-    df = load_data(json.loads(f.read()), 10000)
+    df = load_data(json.loads(f.read()), 100)
+    df_true = df[df['oper_result'] == True]
+    df_false = df[df['oper_result'] == False]
     cities = pd.DataFrame(df['city'])
-    df2 = cities.groupby(['city']).city.transform('count')
-    for i in range(len(cities)):
-        city = cities.values[i]
-        req = requests.get(url=url.format(city_name=city, api_key='267c99ba130b445b455b4aa7d9b5e617'))
-        data = req.json()[0]
-        print(data['lat'], data['lon'])
-        new_row = {'lat': data['lat'], 'lon': data['lon']}
-        gps = gps.append(new_row, ignore_index=True)
+    # df2_true = cities.groupby(['city']).city.transform('count')
+    # for i in range(len(cities)):
+    #     city = cities.values[i]
+    #     req = requests.get(url=url.format(city_name=city, api_key='267c99ba130b445b455b4aa7d9b5e617'))
+    #     data = req.json()[0]
+    #     print(data['lat'], data['lon'])
+    #     new_row = {'lat': data['lat'], 'lon': data['lon']}
+    #     gps = gps.append(new_row, ignore_index=True)
+    for i in range(len(df_true)):
+        print(df_true.loc[i, 'city'])
+    for i in range(len(df_false)):
+        pass
 
     st.pydeck_chart(pdk.Deck(
         map_style=None,
