@@ -34,14 +34,13 @@ def get_fraud_transactions(data: dict) -> dict:
     }
     transactions = get_transaction_from_json(data)
     f = Fraud(transactions)
-    for t in f.many_clicks():
-        result['fraud_transactions']['pattern_1']['transactions'].append(t.id)
+    result['fraud_transactions']['pattern_1']['transactions'] = [t.id for t in f.many_clicks()]
     result['fraud_transactions']['pattern_1']['count'] = len(result['fraud_transactions']['pattern_1']['transactions'])
-    for t in f.equal_delay():
-        result['fraud_transactions']['pattern_2']['transactions'].append(t.id)
+    # for t in f.equal_delay():
+    result['fraud_transactions']['pattern_2']['transactions'] = [t.id for t in f.equal_delay()]
     result['fraud_transactions']['pattern_2']['count'] = len(result['fraud_transactions']['pattern_2']['transactions'])
-    for t in f.day_time():
-        result['fraud_transactions']['pattern_3']['transactions'].append(t.id)
+    # for t in f.day_time():
+    result['fraud_transactions']['pattern_3']['transactions'] = [t.id for t in f.day_time()]
     result['fraud_transactions']['pattern_3']['count'] = len(result['fraud_transactions']['pattern_3']['transactions'])
     return result
 
