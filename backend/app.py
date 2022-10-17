@@ -45,7 +45,7 @@ def get_cities():
 
 
 @app.route('/get_transactions/<string:transactions>', methods=['GET'])
-def get_transactions(transactions: str):
+def get_transactions_by_ids(transactions: str):
     return jsonify(h.get_transactions_data(transactions)), 200
 
 
