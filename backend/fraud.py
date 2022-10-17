@@ -61,14 +61,13 @@ class Fraud:
         return fraud_operations
 
     #  проверка на подозрительную активность в ночное время
-    def night_time(self, time) -> list[Operation]:
-        return list(filter(lambda x: x.date.hour <= min(time) or x.date.hour >= max(time), self.operations))
-
     def outdated_account(self) -> list[Operation]:
         return list(filter(lambda x: x.account_valid_to > datetime.now(), self.operations))
 
     def bad_time(self, time) -> list[Operation]:
-        return list(filter(lambda x: min(time) <= x.date.hour <= max(time), self.operations))
+        if time[0] > time[1]:
+            return list(filter(lambda x: x.date.hour >= time[0] or x.date.hour <= time[1], self.operations))
+        return list(filter(lambda x: time[0] <= x.date.hour <= time[1], self.operations))
 
     def bad_age(self, age):
         return list(

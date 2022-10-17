@@ -61,7 +61,7 @@ def get_fraud_transactions(data: dict) -> dict:
     result['fraud_transactions']['pattern_1']['count'] = len(result['fraud_transactions']['pattern_1']['transactions'])
     result['fraud_transactions']['pattern_2']['transactions'] = [t.id for t in f.equal_delay(equal_delay)]
     result['fraud_transactions']['pattern_2']['count'] = len(result['fraud_transactions']['pattern_2']['transactions'])
-    result['fraud_transactions']['pattern_3']['transactions'] = [t.id for t in f.night_time(night_hours)]
+    result['fraud_transactions']['pattern_3']['transactions'] = [t.id for t in f.bad_time(night_hours)]
     result['fraud_transactions']['pattern_3']['count'] = len(result['fraud_transactions']['pattern_3']['transactions'])
     result['fraud_transactions']['pattern_4']['transactions'] = [t.id for t in f.outdated_account()]
     result['fraud_transactions']['pattern_4']['count'] = len(result['fraud_transactions']['pattern_4']['transactions'])
