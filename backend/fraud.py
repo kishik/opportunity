@@ -18,6 +18,14 @@ class Fraud:
                 result.append(operation)
         return result
 
+    #  получение операций от конкретного аккаунта
+    def operations_by_account(self, account: str) -> list[Operation]:
+        result = []
+        for operation in self.operations:
+            if operation.account == account:
+                result.append(operation)
+        return result
+
     #  получение операции с конкретного устройства (terminal)
     def operations_by_terminal(self, terminal: str) -> list[Operation]:
         result = []
