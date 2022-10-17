@@ -34,7 +34,9 @@ def get_fraud_transactions(data: dict) -> dict:
     }
     transactions = get_transaction_from_json(data)
     f = Fraud(transactions)
+
     # for t in f.many_clicks():
+
     result['fraud_transactions']['pattern_1']['transactions'] = [t.id for t in f.many_clicks()]
     result['fraud_transactions']['pattern_1']['count'] = len(result['fraud_transactions']['pattern_1']['transactions'])
     # for t in f.equal_delay():
