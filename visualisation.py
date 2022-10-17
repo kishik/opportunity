@@ -40,7 +40,6 @@ def load_patterns(data):
     return result
 
 
-
 def visualisation(file, nrows=10000):
     st.header("Транзакции")
     df = load_data(json.loads(file), nrows)
