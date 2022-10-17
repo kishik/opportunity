@@ -51,5 +51,8 @@ if __name__ == '__main__':
     if 'welcomed' not in st.session_state:
         st.balloons()
         st.session_state['welcomed'] = 'welcomed'
-    f = open("transactions.json", "r")
-    visualisation(f.read())
+    try:
+        f = open("transactions.json", "r")
+        visualisation(f.read())
+    except FileNotFoundError:
+        st.header("Нет файла")
