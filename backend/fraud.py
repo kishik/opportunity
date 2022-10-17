@@ -5,11 +5,6 @@ from datetime import datetime, timedelta
 
 from backend.transaction import Operation
 
-bad_time = [(0, 6), (23, 25)]
-bad_age = [(58, 63)]
-many_clicks_delay = 5
-night_hours = [(0, 6), (24, 25)]
-
 
 class Fraud:
     def __init__(self, operations: list[Operation]) -> None:
@@ -32,8 +27,8 @@ class Fraud:
         return result
 
     #  проверка на множество кликов с одного ID
-    def many_clicks(self) -> list[Operation]:
-        acceracy = timedelta(minutes=5)  # промежуток времени в 5 минут
+    def many_clicks(self, minutes=5) -> list[Operation]:
+        acceracy = timedelta(minutes=minutes)  # промежуток времени в 5 минут
         checked_terminals = {}
         fraud_operations = []
         for i in range(len(self.operations)):
@@ -46,8 +41,8 @@ class Fraud:
         return fraud_operations
 
     #  проверка на одинаковые временные промежутки между операциями
-    def equal_delay(self) -> list[Operation]:
-        acceracy = timedelta(seconds=1)  # погрешность в 1 секунду
+    def equal_delay(self, seconds=1) -> list[Operation]:
+        acceracy = timedelta(seconds=seconds)  # погрешность в 1 секунду
         checked_clients = {}
         temp = None
         fraud_operations = []
@@ -66,14 +61,15 @@ class Fraud:
         return fraud_operations
 
     #  проверка на подозрительную активность в ночное время
-    def night_time(self, from_hour=None, to_hour=None) -> list[Operation]:
-        return list(filter(lambda x: x.date.hour < 6 or x.date.hour > 22, self.operations))
+    def night_time(self, time) -> list[Operation]:
+        return list(filter(lambda x: x.date.hour <= min(time) or x.date.hour >= max(time), self.operations))
 
     def outdated_account(self) -> list[Operation]:
         return list(filter(lambda x: x.account_valid_to > datetime.now(), self.operations))
 
-    def bad_time(self, from_hour=14, to_hour=16) -> list[Operation]:
-        return list(filter(lambda x: from_hour <= x.date.hour <= to_hour, self.operations))
+    def bad_time(self, time) -> list[Operation]:
+        return list(filter(lambda x: min(time) <= x.date.hour <= max(time), self.operations))
 
-    def bad_age(self, from_age=57, to_age=62):
-        return list(filter(lambda x: from_age <= datetime.now().year - x.date_of_birth.year <= to_age, self.operations))
+    def bad_age(self, age):
+        return list(
+            filter(lambda x: min(age) <= datetime.now().year - x.date_of_birth.year <= max(age), self.operations))
