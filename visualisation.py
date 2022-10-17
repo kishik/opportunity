@@ -16,38 +16,7 @@ def page_config():
     )
 
 
-# # TODO написать jnghfdre json post запросом на сервер
-# def json_to_api(url):
-#     pass
-#
-#
-# # TODO написать получение json get запросом с сервера
-# def json_from_api(url):
-#     pass
-#
-#
-# def json_to_pandas(data, nrows):
-#     data = data['transactions']
-#     result = pd.DataFrame.from_dict(data).T
-#     result = result[:nrows]
-#     result.index = result.index.astype(int)
-#     result['amount'] = result['amount'].astype(int)
-#     result['passport'] = result['passport'].astype(str)
-#     result['date'] = pd.to_datetime(result['date'], format='%Y-%m-%dT%H:%M:%S')
-#     result['account_valid_to'] = pd.to_datetime(result['account_valid_to'], format='%Y-%m-%d')
-#     result['date_of_birth'] = pd.to_datetime(result['date_of_birth'], format='%Y-%m-%d')
-#     result['passport_valid_to'] = pd.to_datetime(result['passport_valid_to'], format='%Y-%m-%d')
-#     return result
-#
-#
-# def load_data(file, nrows=100000):
-#     if nrows <= 0:
-#         return pd.DataFrame()
-#     with open(file) as json_file:
-#         data = json.load(json_file)
-#     return json_to_pandas(data, nrows)
-
-def load_data(data, nrows=None):
+def load_data(data, nrows=0):
     if nrows <= 0:
         return pd.DataFrame()
     data = data['transactions']
@@ -66,8 +35,10 @@ def load_data(data, nrows=None):
 def load_patterns(data):
     data = data['fraud_transactions']
     result = pd.DataFrame.from_dict(data).T
+
     result.index = result.index.astype(str)
     return result
+
 
 
 def visualisation(file, nrows=10000):
