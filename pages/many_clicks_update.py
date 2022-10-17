@@ -1,3 +1,4 @@
+import requests
 import streamlit as st
 
 with st.form("my_form"):
@@ -7,5 +8,5 @@ with st.form("my_form"):
     # Every form must have a submit button.
     submitted = st.form_submit_button("Submit")
     if submitted:
-        # send get req
+        requests.get(url='127.0.0.1:5000/set_many_click_delay/{0}'.format(delay))
         st.write("delay", delay)
