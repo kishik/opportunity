@@ -47,10 +47,9 @@ def page_config():
 #         data = json.load(json_file)
 #     return json_to_pandas(data, nrows)
 
-def load_data(file, nrows=None):
+def load_data(data, nrows=None):
     if nrows <= 0:
         return pd.DataFrame()
-    data = json.loads(file)
     data = data['transactions']
     result = pd.DataFrame.from_dict(data).T
     result = result[:nrows]
@@ -64,9 +63,16 @@ def load_data(file, nrows=None):
     return result
 
 
+def load_patterns(data):
+    data = data['fraud_transactions']
+    result = pd.DataFrame.from_dict(data).T
+    result.index = result.index.astype(str)
+    return result
+
+
 def visualisation(file, nrows=10000):
     st.header("Транзакции")
-    df = load_data(file, nrows)
+    df = load_data(json.loads(file), nrows)
     st.dataframe(df)
 
 
