@@ -44,7 +44,7 @@ def get_cities():
     return jsonify(h.get_all_cities()), 200
 
 
-@app_route('/get_transactions/<string:transactions>', methods=['GET'])
+@app.route('/get_transactions/<string:transactions>', methods=['GET'])
 def get_transactions(transactions: str):
     return jsonify(h.get_transactions_data(transactions)), 200
 
