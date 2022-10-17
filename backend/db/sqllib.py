@@ -21,6 +21,9 @@ class SQLlib:
                           t_data['terminal'], t_data['terminal_type'], t_data['city'], t_data['address']))
         self.con.commit()
 
+    def get_transaction(self, transaction_id: str) -> list:
+        return self.cur.execute("SELECT * FROM transactions WHERE id = ?", (transaction_id,)).fetchone()
+
     def get_transactions(self) -> list:
         return self.cur.execute("SELECT * FROM transactions").fetchall()
 
