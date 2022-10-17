@@ -1,8 +1,9 @@
 """
 Тут хранится класс для проверки операций
 """
-from backend.transaction import Operation
 from datetime import datetime, timedelta
+
+from backend.transaction import Operation
 
 
 class Fraud:
@@ -26,8 +27,8 @@ class Fraud:
         return result
 
     #  проверка на множество кликов с одного ID
-    def many_clicks(self) -> list[Operation]:
-        acceracy = timedelta(minutes=5)  # промежуток времени в 5 минут
+    def many_clicks(self, minutes=5) -> list[Operation]:
+        acceracy = timedelta(minutes=minutes)  # промежуток времени в 5 минут
         checked_terminals = {}
         fraud_operations = []
         for i in range(len(self.operations)):
@@ -40,8 +41,8 @@ class Fraud:
         return fraud_operations
 
     #  проверка на одинаковые временные промежутки между операциями
-    def equal_delay(self) -> list[Operation]:
-        acceracy = timedelta(seconds=1)  # погрешность в 1 секунду
+    def equal_delay(self, seconds=1) -> list[Operation]:
+        acceracy = timedelta(seconds=seconds)  # погрешность в 1 секунду
         checked_clients = {}
         temp = None
         fraud_operations = []
@@ -60,5 +61,14 @@ class Fraud:
         return fraud_operations
 
     #  проверка на подозрительную активность в ночное время
-    def day_time(self) -> list[Operation]:
-        return list(filter(lambda x: x.date.hour < 6 or x.date.hour > 22, self.operations))
+    def outdated_account(self) -> list[Operation]:
+        return list(filter(lambda x: x.account_valid_to > datetime.now(), self.operations))
+
+    def bad_time(self, time) -> list[Operation]:
+        if time[0] > time[1]:
+            return list(filter(lambda x: x.date.hour >= time[0] or x.date.hour <= time[1], self.operations))
+        return list(filter(lambda x: time[0] <= x.date.hour <= time[1], self.operations))
+
+    def bad_age(self, age):
+        return list(
+            filter(lambda x: min(age) <= datetime.now().year - x.date_of_birth.year <= max(age), self.operations))

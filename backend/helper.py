@@ -16,6 +16,12 @@ def get_transaction_from_json(data: dict) -> list[Operation]:
 
 
 def get_fraud_transactions(data: dict) -> dict:
+    bad_hours = (14, 16)
+    age = (58, 63)
+    many_clicks_delay = 5
+    equal_delay = 1
+    night_hours = (0, 5)
+
     result = {
         "fraud_transactions": {
             "pattern_1": {
@@ -29,22 +35,40 @@ def get_fraud_transactions(data: dict) -> dict:
             "pattern_3": {
                 "transactions": [],
                 "count": 0
+            },
+            "pattern_4": {
+                "transactions": [],
+                "count": 0
+            },
+            "pattern_5": {
+                "transactions": [],
+                "count": 0
+            },
+            "pattern_6": {
+                "transactions": [],
+                "count": 0
             }
         }
     }
     transactions = get_transaction_from_json(data)
     f = Fraud(transactions)
-
-    # for t in f.many_clicks():
-
-    result['fraud_transactions']['pattern_1']['transactions'] = [t.id for t in f.many_clicks()]
+    # for i in range(len(bad_time)):
+    #     result['fraud_transactions']['pattern_3']['transactions'] = [t.id for t in f.night_time()]
+    #     result['fraud_transactions']['pattern_3']['count'] = len(
+    #         result['fraud_transactions']['pattern_3']['transactions'])
+    # TODO добавление количества
+    result['fraud_transactions']['pattern_1']['transactions'] = [t.id for t in f.many_clicks(many_clicks_delay)]
     result['fraud_transactions']['pattern_1']['count'] = len(result['fraud_transactions']['pattern_1']['transactions'])
-    # for t in f.equal_delay():
-    result['fraud_transactions']['pattern_2']['transactions'] = [t.id for t in f.equal_delay()]
+    result['fraud_transactions']['pattern_2']['transactions'] = [t.id for t in f.equal_delay(equal_delay)]
     result['fraud_transactions']['pattern_2']['count'] = len(result['fraud_transactions']['pattern_2']['transactions'])
-    # for t in f.day_time():
-    result['fraud_transactions']['pattern_3']['transactions'] = [t.id for t in f.day_time()]
+    result['fraud_transactions']['pattern_3']['transactions'] = [t.id for t in f.bad_time(night_hours)]
     result['fraud_transactions']['pattern_3']['count'] = len(result['fraud_transactions']['pattern_3']['transactions'])
+    result['fraud_transactions']['pattern_4']['transactions'] = [t.id for t in f.outdated_account()]
+    result['fraud_transactions']['pattern_4']['count'] = len(result['fraud_transactions']['pattern_4']['transactions'])
+    result['fraud_transactions']['pattern_5']['transactions'] = [t.id for t in f.bad_time(bad_hours)]
+    result['fraud_transactions']['pattern_5']['count'] = len(result['fraud_transactions']['pattern_5']['transactions'])
+    result['fraud_transactions']['pattern_6']['transactions'] = [t.id for t in f.bad_age(age)]
+    result['fraud_transactions']['pattern_6']['count'] = len(result['fraud_transactions']['pattern_6']['transactions'])
     return result
 
 
