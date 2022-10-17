@@ -21,13 +21,32 @@ def get_transaction_from_json(data: dict) -> list[Operation]:
     return transactions
 
 
-def get_fraud_transactions(data: dict) -> dict:
-    bad_hours = (14, 16)
-    age = (58, 63)
-    many_clicks_delay = 5
-    equal_delay = 1
-    night_hours = (0, 5)
+def set_many_clicks_data(delay: int) -> None:
+    global MANY_CLICKS_DELAY
+    MANY_CLICKS_DELAY = delay
 
+
+def set_bad_time_data(time_f: int, time_t: int) -> None:
+    global BAD_HOURS
+    BAD_HOURS = (time_f, time_t)
+
+
+def set_night_time_data(time_f: int, time_t: int) -> None:
+    global NIGHT_HOURS
+    NIGHT_HOURS = (time_f, time_t)
+
+
+def set_bad_age_data(age_f: int, age_t: int) -> None:
+    global AGE
+    AGE = (age_f, age_t)
+
+
+def set_equal_delay_data(delay: int) -> None:
+    global EQUAL_DELAY
+    EQUAL_DELAY = delay
+
+
+def get_fraud_transactions(data: dict) -> dict:
     result = {
         "fraud_transactions": {
             "pattern_1": {
