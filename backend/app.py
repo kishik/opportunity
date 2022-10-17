@@ -9,7 +9,6 @@ from backend.schemas.schemas import FAILED_VALIDATION
 
 UPLOAD_FOLDER = 'backend/uploads'
 
-
 app = Flask('FraudAPI')
 app.config['JSON_AS_ASCII'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -43,6 +42,11 @@ def get_transactions():
 @app.route('/get_cities', methods=['GET'])
 def get_cities():
     return jsonify(h.get_all_cities()), 200
+
+
+@app_route('/get_transactions/<string:transactions>', methods=['GET'])
+def get_transactions(transactions: str):
+    return jsonify(h.get_transactions_data(transactions)), 200
 
 
 if __name__ == '__main__':

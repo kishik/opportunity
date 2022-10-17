@@ -59,6 +59,33 @@ class Helper:
         req = requests.get(self.city_api_url.format(city_name=name, api_key=API_KEY)).json()
         return [req[0]['lat'], req[0]['lon']]
 
+    def get_transactions_data(self, transaction_ids: str) -> dict:
+        result = {}
+        for t_id in transaction_ids.split(','):
+            t = self.sql.get_transaction(t_id)
+            result[t_id] = {
+                "date": t[1],
+                "card": t[2],
+                "account": t[3],
+                "account_valid_to": t[4],
+                "client": t[5],
+                "last_name": t[6],
+                "first_name": t[7],
+                "patronymic": t[8],
+                "date_of_birth": t[9],
+                "passport": t[10],
+                "passport_valid_to": t[11],
+                "phone": t[12],
+                "oper_type": t[13],
+                "amount": t[14],
+                "oper_result": t[15],
+                "terminal": t[16],
+                "terminal_type": t[17],
+                "city": t[18],
+                "address": t[19]
+            }
+        return result
+
     def add_transactions_to_db(self, data: dict) -> None:
         transactions = data['transactions']
         for transactions_id, t_data in transactions.items():
