@@ -9,5 +9,5 @@ with st.form("my_form"):
     # Every form must have a submit button.
     submitted = st.form_submit_button("Submit")
     if submitted:
-        requests.get(url='127.0.0.1:5000/set_night_time/{0}/{1}'.format(hour_from, hour_to))
+        requests.get(url='http://127.0.0.1:5000/set_night_time/{0}/{1}'.format(hour_from, hour_to))
         st.write("hour_from", hour_from, "hour_to", hour_to)

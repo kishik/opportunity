@@ -10,5 +10,5 @@ with st.form("my_form"):
     submitted = st.form_submit_button("Submit")
     if submitted:
         # send get req
-        requests.get(url='127.0.0.1:5000/set_bad_age/{0}/{1}'.format(years_from, years_to))
+        requests.get(url='http://127.0.0.1:5000/set_bad_age/{0}/{1}'.format(years_from, years_to))
         st.write("years_from", years_from, "years_to", years_to)
