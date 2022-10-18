@@ -2,12 +2,14 @@
 
 
 * [Front-end](#front)
-  * [bad_age_update](#bau)
-  * [bad_time_update](#btu)
-  * [many_clicks_update](#mcu)
-  * [night_time_update](#ntu)
-  * [map](#map)
-  * [upload](#upload)
+  * [Решение кейса от команды WIN+NERS](#main)
+  * [Возрастная группа риска](#bau)
+  * [Подозрительная активность в неактивное время](#btu)
+  * [Множество кликов за короткий промежуток времени](#mcu)
+  * [Подозрительная активность в ночное время](#ntu)
+  * [Невалидный аккаунт](#invalid)
+  * [Операции с одного устройства](#one_t)
+  * [Dashboard](#map)
 * [Back-end](#back)
   * [1. POST /import_transactions](#import)
   * [2. GET /get_transactions](#get_t)
@@ -32,12 +34,14 @@
   
   
   ## <a name="front"></a> Front-end
-  ### <a name="bau"></a> bad_age_update
-  ### <a name="btu"></a> bad_time_update
-  ### <a name="mcu"></a> many_clicks_update
-  ### <a name="ntu"></a> night_time_update
-  ### <a name="map"></a> map
-  ### <a name="upload"></a> upload
+  ### <a name="main"></a> Решение кейса от команды WIN+NERS
+  ### <a name="bau"></a> Возрастная группа риска
+  ### <a name="btu"></a> Подозрительная активность в неактивное время
+  ### <a name="mcu"></a> Множество кликов за короткий промежуток времени
+  ### <a name="ntu"></a> Подозрительная активность в ночное время
+  ### <a name="invalid"></a> Невалидный аккаунт
+  ### <a name="one_t"></a> Операции с одного устройства
+  ### <a name="map"></a> Dashboard
   ## <a name="back"></a> Back-end
   Разработка back-end'а велась с использованием веб-фреймворка Flask (Python)
   ### <a name="import"></a> 1. POST /import_transactions
