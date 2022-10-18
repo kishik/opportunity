@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 class Operation:
-
+ 
     def __init__(self, operation_id, data):
         self.id = operation_id
         self.card = data['card']
@@ -16,8 +16,8 @@ class Operation:
         self.patronymic = data['patronymic']
         self.passport = str(data['passport'])
         self.phone = data['phone']
-        if int(data['oper_type']) < 0:
-            raise ValueError
+        #if int(data['oper_type']) < 0:
+           # raise ValueError
         self.oper_type = data['oper_type']
         self.amount = data['amount']
         if data['oper_result'] == "Отказ":
