@@ -120,4 +120,8 @@
   ##### Устанавливаем необходимые пакеты
         pip install -r requirements.txt
   ### <a name="start_back"></a> Запуск back-end приложения
+  ##### Запускаем приложение
+        python3 main.py
   ### <a name="start_front"></a> Запуск front-end приложения
+  ##### Запускаем приложение
+        streamlit run main_page.py
