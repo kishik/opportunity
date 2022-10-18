@@ -40,6 +40,7 @@ def load_patterns(data):
     result.index = result.index.astype(str)
     return result
 
+
 def get_ids(patern):
     chars = " []'"
     s = str(st.session_state['paterns'].json()['fraud_transactions'][patern]['transactions'])
@@ -47,9 +48,6 @@ def get_ids(patern):
     return res
 
 
-
-
- 
 if __name__ == '__main__':
     st.header("Решение кейса от команды WIN+NERS")
     paterns = ''
