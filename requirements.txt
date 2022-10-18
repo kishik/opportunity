@@ -1,4 +1,4 @@
-xlsxwriter~=3.0.3
+xlsxwriter==3.0.3
 numpy==1.23.4
 streamlit==1.13.0
 pandas==1.5.0
@@ -7,5 +7,6 @@ jsonschema==4.16.0
 Werkzeug==2.2.2
 requests==2.28.1
 streamlit-aggrid~=0.3.3
-hiplot~=0.1.33
+hiplot==0.1.33
 pydeck==0.7.1
+bokeh==2.4.3
