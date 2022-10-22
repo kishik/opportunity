@@ -12,27 +12,18 @@ class Fraud:
 
     #  получение операций от конкретного клиента
     def operations_by_client(self, client: str) -> list[Operation]:
-        result = []
-        for operation in self.operations:
-            if operation.client == client:
-                result.append(operation)
-        return result
+        return [operation for operation in self.operations if operation.client == client]
+
+    def accounts(self) -> list[str]:
+        return list(set([operation.account for operation in self.operations]))
 
     #  получение операций от конкретного аккаунта
     def operations_by_account(self, account: str) -> list[Operation]:
-        result = []
-        for operation in self.operations:
-            if operation.account == account:
-                result.append(operation)
-        return result
+        return [operation for operation in self.operations if operation.account == account]
 
     #  получение операции с конкретного устройства (terminal)
     def operations_by_terminal(self, terminal: str) -> list[Operation]:
-        result = []
-        for operation in self.operations:
-            if operation.terminal == terminal:
-                result.append(operation)
-        return result
+        return [operation for operation in self.operations if operation.terminal == terminal]
 
     #  проверка на множество кликов с одного ID
     def many_clicks(self, minutes=5) -> list[Operation]:
@@ -70,7 +61,7 @@ class Fraud:
 
     #  проверка на подозрительную активность в ночное время
     def outdated_account(self) -> list[Operation]:
-        return list(filter(lambda x: x.account_valid_to > datetime.now(), self.operations))
+        return list(filter(lambda x: x.account_valid_to < datetime.now(), self.operations))
 
     def bad_time(self, time) -> list[Operation]:
         if time[0] > time[1]:
@@ -80,3 +71,26 @@ class Fraud:
     def bad_age(self, age):
         return list(
             filter(lambda x: min(age) <= datetime.now().year - x.date_of_birth.year <= max(age), self.operations))
+
+    def outdated_passport(self) -> list[Operation]:
+        return list(filter(lambda x: x.passport_valid_to < datetime.now(), self.operations))
+
+    def diff_cities(self, minutes) -> list[Operation]:
+        result = []
+        for account in self.accounts():
+            account_operations = self.operations_by_account(account)
+            if len(account_operations) < 2:
+                continue
+            for i in range(1, len(account_operations)):
+                if account_operations[i].city != account_operations[i - 1].city and \
+                        (account_operations[i].date - account_operations[i - 1].date).total_seconds() > minutes * 60:
+                    if i >= 3:
+                        if account_operations[i - 2].city == account_operations[i - 1].city:
+                            result.append(account_operations[i])
+                        elif account_operations[i - 2].city == account_operations[i].city:
+                            result.append(account_operations[i - 1])
+                        else:
+                            result.extend((account_operations[i - 1], account_operations[i]))
+                        continue
+                    result.extend((account_operations[i - 1], account_operations[i]))
+        return result

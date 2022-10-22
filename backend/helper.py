@@ -101,6 +101,24 @@ def get_fraud_transactions(data: dict) -> dict:
     return result
 
 
+def get_coordinates_from_api(city_name: str) -> (float, float):
+
+    # make async
+    url = 'http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=1&appid={api_key}'
+    try:
+        req = requests.get(url=url.format(city_name=city_name, api_key='267c99ba130b445b455b4aa7d9b5e617')).json()[0]
+        result = (req['lat'], req['lon'])
+        # add coord to db
+    except:
+        result = None
+    return result
+
+
+# возвращает имя города, сколько раз входит, lat, lon
+def count_cities(data: dict) -> dict:
+    pass
+
+
 class Helper:
 
     def __init__(self) -> None:
@@ -180,15 +198,17 @@ class Helper:
                 "patronymic": t[8],
                 "date_of_birth": t[9],
                 "passport": t[10],
-                    "passport_valid_to": t[11],
-                    "phone": t[12],
-                    "oper_type": t[13],
-                    "amount": t[14],
-                    "oper_result": t[15],
-                    "terminal": t[16],
-                    "terminal_type": t[17],
-                    "city": t[18],
-                    "address": t[19]
-                }
+                "passport_valid_to": t[11],
+                "phone": t[12],
+                "oper_type": t[13],
+                "amount": t[14],
+                "oper_result": t[15],
+                "terminal": t[16],
+                "terminal_type": t[17],
+                "city": t[18],
+                "address": t[19]
+            }
 
         return result
+
+    # def get_coordinates(self, name):

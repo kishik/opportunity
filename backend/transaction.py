@@ -9,7 +9,7 @@ class Operation:
     def __init__(self, operation_id, data):
         self.id = operation_id
         self.card = data['card']
-        self.account = data['account']
+        self.account = str(data['account'])
         self.client = data['client']
         self.last_name = data['last_name']
         self.first_name = data['first_name']
