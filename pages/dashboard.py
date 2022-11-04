@@ -1,8 +1,13 @@
+import json
+
 import pandas as pd
 import pydeck as pdk
 import requests
 import streamlit as st
-
+import pandas as pd
+import numpy as np
+import altair as alt
+from bokeh.plotting import figure
 from main_page import load_data
 
 st.set_page_config(
@@ -12,6 +17,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 
 )
+
 
 
 def map_draw():

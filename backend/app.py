@@ -35,7 +35,7 @@ def import_transations():
         h.add_transactions_to_db(data)
         return jsonify(get_fraud_transactions(data)), 200
     return jsonify(FAILED_VALIDATION), 400
-
+ 
 
 @app.route('/get_transactions', methods=['GET'])
 def get_transactions():

@@ -1,14 +1,15 @@
+import json
 import requests
 import streamlit as st
-
-from main_page import get_ids
 from main_page import load_data
+from main_page import get_ids
 
-url = 'http://127.0.0.1:5000/get_transactions_by_ids/' + get_ids('pattern_6')
+url = 'http://127.0.0.1:5000/get_transactions_by_ids/'+get_ids('pattern_6')
 patern = requests.get(url)
 st.header("Возрастная группа риска")
-df = load_data(patern.json(), 10000)
+df = load_data(patern.json(),10000)
 st.dataframe(df)
+
 
 with st.form("my_form"):
     st.write("Inside the form")
